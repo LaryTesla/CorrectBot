@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<head>
+    <title>批改机</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <h2>开始的数字等式</h2>
+    <button onclick="start()">开始</button>
+    <p id="equation"></p>
+    <button onclick="submit(true)">✅</button>
+    <button onclick="submit(false)">X</button>
+    <button onclick="check()" id="verify" style="display: none;">机器核验</button>
+    <p id="answer"></p>
+
+    <script>
+        let num1, num2, num3, userChoices = [];
+
+        function start() {
+            document.getElementById('answer').style.display = 'none';
+            document.getElementById('verify').style.display = 'none';
+            fetch('http://localhost:5000/equation/start')
+            .then(response => response.json())
+            .then(data => {
+                num1 = data.num1;
+                num2 = data.num2;
+                num3 = data.num3;
+                document.querySelector('#equation').innerText = `等式 [${num1} * ${num2} = ${num3}]`;
+                document.getElementById('verify').style.display = 'block';
+            });
+        }
+
+        function submit(isCorrect) {
+            userChoices.push(isCorrect);
+        }
+
+        function check() {
+            fetch('http://localhost:5000/botanswer/return', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ num1, num2, num3, userRight: userChoices[userChoices.length - 1] }),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                const correctAnswer = data.computing;   // 拿到正确答案
+                const resultMsg = data.result ? '正确' : '错误';
+                document.getElementById('answer').innerText = `机器核算结果为${correctAnswer}，您的批改${resultMsg}`;
+                document.getElementById('answer').style.display = 'block';
+                document.getElementById('verify').style.display = 'none';
+                userChoices = [];  // 清空用户选择
+            })
+        }
+    </script>
+</body>
+
+</html>
