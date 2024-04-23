@@ -2,14 +2,31 @@
 <head>
     <title>批改机</title>
     <meta charset="UTF-8">
+    <style>
+        /* 添加这段CSS */
+        button:active {
+            background-color: #ddd;
+        }
+        /* 给间隔div一个固定的宽度 */
+        .spacer {
+            display: inline-block;
+            width: 20px;
+        }
+        /* 给机器核验按钮添加顶部的外边距 */
+        #verify {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 
 <body>
     <h2>算数批改机</h2>
     <button onclick="start()">开始</button>
     <p id="equation"></p>
-    <button onclick="submit(true)">✅</button>
+    <button onclick="submit(true)">√</button>
+    <div class="spacer"></div>  <!-- 添加一个间隔div -->
     <button onclick="submit(false)">X</button>
+    <div class="spacer"></div>  <!-- 添加一个间隔div -->
     <button onclick="check()" id="verify" style="display: none;">机器核验</button>
     <p id="answer"></p>
 
