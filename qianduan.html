@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h2>开始的数字等式</h2>
+    <h2>算数批改机</h2>
     <button onclick="start()">开始</button>
     <p id="equation"></p>
     <button onclick="submit(true)">✅</button>
@@ -19,7 +19,7 @@
         function start() {
             document.getElementById('answer').style.display = 'none';
             document.getElementById('verify').style.display = 'none';
-            fetch('http://localhost:5000/equation/start')
+            fetch('http://teslalary.pythonanywhere.com/equation/start')       //tian'x填写  
             .then(response => response.json())
             .then(data => {
                 num1 = data.num1;
@@ -35,7 +35,7 @@
         }
 
         function check() {
-            fetch('http://localhost:5000/botanswer/return', {
+            fetch('http://teslalary.pythonanywhere.com/botanswer/return', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
